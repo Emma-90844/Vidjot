@@ -21,9 +21,10 @@ const Idea = mongoose.model('ideas');
 
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //Handle bars middle ware(setting up engine to handle bars)
-app.engine('handlebars', exphbs({
+app.engine('handlebars', exphbs({ 
     defaultlayout: 'main'}));
 app.set('view engine', 'handlebars');
 
@@ -35,14 +36,41 @@ app.get('/', (req, res) => {
         title: title
     });
 });
-app.get('/about', (req, res) => {
-    
+app.get('/about', (req, res) => {   
     res.render('about');
+});
+
+
+
+//Add idea route
+app.get('/ideas/add', (req, res) => {   
+    res.render('ideas/add');
+});
+
+//Process form
+app.post('/ideas', (req, res) => { 
+    let errors = [];
+    if(!req.body.title){
+        errors.push({text: 'Please add a title'});
+    }
+    if(!req.body.details){
+        errors.push({text: 'Please add details'});
+    }
+    if(errors.length > 0){
+        res.render('ideas/add', {
+            errors: errors,
+            title: req.body.title,
+            details:req.body.details
+        });
+    }
+     else {
+        res.send('Passed');
+    }
 });
 
 const port = 5000;
 app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
+    console.log(`Server started on port ${port}...`);
 });
 
 
