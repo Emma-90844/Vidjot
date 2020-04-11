@@ -1,0 +1,10 @@
+MIDDLEWARE:
+Middlewares are functions that access to the req, 
+res object, and the next midlleware function 
+in the applications request-response cycle
+
+TASK BY MIDDLEWARE
+--Execute any code
+--Make changes to the request response object
+--End req, res Life cycle
+--They call the next middle ware
