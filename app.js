@@ -1,6 +1,7 @@
 const path = require('path');
 const express =  require('express');
 const exphbs = require('express-handlebars');
+const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
@@ -10,7 +11,7 @@ const app = express();
 //Map global promise-get rid of promise
 mongoose.Promise = global.Promise;
 //Connect to mongoose
-mongoose.connect('mongodb://localhost/vidjot-dev', { useNewUrlParser: true })
+mongoose.connect('mongodb://localhost/vidjot-dev', { useNewUrlParser: false})
     .then(() => console.log('MongoDB connected...'))
     .catch(err => console.log(err));
 
@@ -18,10 +19,13 @@ mongoose.connect('mongodb://localhost/vidjot-dev', { useNewUrlParser: true })
 require('./models/Idea');
 const Idea = mongoose.model('ideas');
 
-
+// Body Parser middleware
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+//Method override middleware
+app.use(methodOverride('_method'));
 
 //Handle bars middle ware(setting up engine to handle bars)
 app.engine('handlebars', exphbs({ 
@@ -60,6 +64,19 @@ app.get('/ideas/add', (req, res) => {
     res.render('ideas/add');
 });
 
+//Edit idea route
+app.get('/ideas/edit/:id', (req, res) => {   
+    Idea.findOne({
+        _id:req.params.id
+    })
+    .then(idea => {
+        res.render('ideas/edit', {
+            idea:idea
+         }); 
+    });  
+});
+
+
 //Process form
 app.post('/ideas', (req, res) => { 
     let errors = [];
@@ -83,18 +100,26 @@ app.post('/ideas', (req, res) => {
          };
         new Idea(newUser)
         .save()
-        .then(() => {
+        .then( () => {
             res.redirect('/ideas');
         });
     }
 });
+
+
+
+//Edit form process
+app.put('/ideas/:id', (req, res) => {
+    res.send('PUT');
+});
+
 
 const port = 5000;
 app.listen(port, () => {
     console.log(`Server started on port ${port}...`);
 });
 
-
+// END
 
 
 

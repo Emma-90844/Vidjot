@@ -8,3 +8,8 @@ TASK BY MIDDLEWARE
 --Make changes to the request response object
 --End req, res Life cycle
 --They call the next middle ware
+
+
+NB:
+-Capitalize model names
+
