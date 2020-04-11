@@ -13,6 +13,12 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/vidjot-dev', { useNewUrlParser: true })
     .then(() => console.log('MongoDB connected...'))
     .catch(err => console.log(err));
+
+//Load Idea Model
+require('./models/Idea');
+const Idea = mongoose.model('ideas');
+
+
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ extended: true }));
 
