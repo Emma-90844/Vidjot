@@ -36,11 +36,24 @@ app.get('/', (req, res) => {
         title: title
     });
 });
-app.get('/about', (req, res) => {   
-    res.render('about');
+
+//Idea index page
+app.get('/ideas', (req, res) => { 
+    Idea.find({})
+    .sort({date:'desc'})
+    .then(ideas => {
+        //Allows fetching from the database
+        res.render('ideas/index', {
+            ideas:ideas
+        });         
+    });
 });
 
 
+
+app.get('/about', (req, res) => {   
+    res.render('about');
+});
 
 //Add idea route
 app.get('/ideas/add', (req, res) => {   
@@ -70,7 +83,7 @@ app.post('/ideas', (req, res) => {
          };
         new Idea(newUser)
         .save()
-        .then(idea => {
+        .then(() => {
             res.redirect('/ideas');
         });
     }
