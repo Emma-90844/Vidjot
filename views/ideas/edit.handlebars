@@ -6,8 +6,10 @@
 
 <div class="card card-body">
    <h3>Edit Video Idea</h3> 
+   {{!-- Method Overide configuration --}}
    <form action="/ideas/{{idea.id}}?_method=PUT" method="post" >
-{{!-- for updating --}}
+
+   {{!-- Note that the input type is hiddden--}}
    <input type="hidden" name="_method" value="PUT" >
 
     <div class="form-group">
@@ -18,7 +20,9 @@
         <label for="details">Details</label>
         <textarea type="text" class="form-control" name="details" >{{idea.details}}</textarea>
     </div>
+    {{!-- Submit button --}}
     <button type="submit" class="btn btn-primary">Submit</button>
+    
    </form>
 </div>
 
