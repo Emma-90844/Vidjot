@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
     const title = 'Welcome to Home page';
     res.render('index', {
         title: title
-    });
+    });  
 });
 
 //Idea index page
@@ -106,8 +106,6 @@ app.post('/ideas', (req, res) => {
     }
 });
 
-
-
 //Edit form process
 app.put('/ideas/:id', (req, res) => {
     Idea.findOne({
@@ -125,13 +123,21 @@ app.put('/ideas/:id', (req, res) => {
     });
 });
 
+//Delete Idea
+app.delete('/ideas/:id', (req, res) => {
+   Idea.remove({ _id:req.params.id})
+   .then(()=> {
+        res.redirect('/ideas');
+   });
+});
 
+// Setting up a listening port to 5000 
 const port = 5000;
 app.listen(port, () => {
     console.log(`Server started on port ${port}...`);
 });
 
-// END
+//  THE END
 
 
 
