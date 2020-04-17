@@ -16,16 +16,8 @@
             </ul>
             
             <ul class="navbar-nav ml-auto">
-                {{!-- Login botton link --}}
-                <li class="nav-item">
-                    <a href="/users/login" class="nav-link">Login</a>
-                </li>
-
-                {{!-- Register button link --}}
-                <li class="nav-item">
-                    <a href="/users/register" class="nav-link">Register</a>
-                </li>
-
+                
+                {{#if user}}
                 {{!-- Drop down down for Ideas and add ideas --}}
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
@@ -35,6 +27,21 @@
                         <a href="/ideas/add" class="dropdown-item">Add Idea</a>
                     </div>
                 </li>
+                    {{!-- Log out --}}
+                    <li class="nav-item">
+                    <a href="/users/logout" class="nav-link">Logout</a>
+                </li>
+                {{else}}
+                    {{!-- Login botton link --}}
+                <li class="nav-item">
+                    <a href="/users/login" class="nav-link">Login</a>
+                </li>
+
+                {{!-- Register button link --}}
+                <li class="nav-item">
+                    <a href="/users/register" class="nav-link">Register</a>
+                </li>
+                {{/if}}
             </ul>
         </div>
     </div>
