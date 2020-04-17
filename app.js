@@ -16,15 +16,25 @@ const app = express();
 const ideas = require('./routes/ideas');
 const users = require('./routes/users');
 
+
+
 //Passport Config
 require('./config/passport')(passport);
 
+
+//DB Configuration
+const db = require('./config/database');
+
 //Map global promise-get rid of promise
 mongoose.Promise = global.Promise;
-//Connect to mongoose
-mongoose.connect('mongodb://localhost/vidjot-dev', { useNewUrlParser: false})
-    .then(() => console.log('MongoDB connected...'))
-    .catch(err => console.log(err));
+
+
+
+// Connect to mongoose
+mongoose.connect(db.mongoURI,{ useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+  .then(() => console.log('MongoDB Connected...'))
+  .catch(err => console.log(err));
+
 
 // Body Parser middleware
 app.use(express.static(__dirname));
@@ -96,7 +106,8 @@ app.use('/ideas', ideas);
 app.use('/users', users);
 
 // Setting up a listening port to 5000 
-const port = 5000;
+
+const port = process.env.PORT  || 5000;
 app.listen(port, () => {
     console.log(`Server started on port ${port}...`);
 });
